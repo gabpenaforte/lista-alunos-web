@@ -30,12 +30,12 @@ npm install
 
 ## Passo 3: Executar o Projeto
 
-Após instalar as dependências e configurar o projeto back-end, execute:
-
+Após instalar as dependências e rodar localmente o back-end, execute:
+ ```bash
 npm run dev
-
-O terminal exibirá o endereço local onde o projeto está rodando, geralmente:
-
+```
+O terminal exibirá o endereço local onde o projeto está rodando, o qual provavelmente será:
+ ```bash
 http://localhost:5173
-
-Abra o endereço no navegador para visualizar a aplicação.
+```
+Abra o endereço no navegador para visualizar e testar a aplicação.
