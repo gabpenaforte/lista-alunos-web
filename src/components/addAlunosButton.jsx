@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Button } from "@mui/material";
 import AlunoDialog from "./dialogs/alunoDialog";
+import "./styles/addAlunosButton.css";
 
 const AddAlunosButton = ({ setAlunos }) => {
   const [open, setOpen] = useState(false);
@@ -50,9 +51,11 @@ const AddAlunosButton = ({ setAlunos }) => {
 
   return (
     <>
-      <Button variant="contained" onClick={handleOpen}>
-        Cadastrar Aluno
-      </Button>
+      <div className="add-aluno-button">
+        <Button variant="contained" onClick={handleOpen}>
+          Cadastrar Aluno
+        </Button>
+      </div>
 
       <AlunoDialog
         open={open}

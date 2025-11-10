@@ -1,10 +1,9 @@
-// components/ListaAlunos.jsx
 import React, { useState } from "react";
 import axios from "axios";
-import { Grid } from "@mui/material";
 import FiltrosAlunos from "./filtrosAlunos";
 import AlunoDialog from "./dialogs/alunoDialog";
 import AlunoCard from "./alunoCard";
+import "./styles/listaAlunos.css";
 
 const ListaAlunos = ({ alunos, loading, error, setAlunos }) => {
   const [openEdit, setOpenEdit] = useState(false);
@@ -76,17 +75,16 @@ const ListaAlunos = ({ alunos, loading, error, setAlunos }) => {
     <>
       <FiltrosAlunos onFilter={setAlunos} />
 
-      <Grid container spacing={2} className="mt-4">
+      <div className="lista-alunos">
         {alunos.map((aluno) => (
-          <Grid item xs={12} sm={6} md={4} key={aluno._id || aluno.cpf}>
-            <AlunoCard
-              aluno={aluno}
-              onEdit={handleEditClick}
-              onDelete={handleDelete}
-            />
-          </Grid>
+          <AlunoCard
+            key={aluno._id || aluno.cpf}
+            aluno={aluno}
+            onEdit={handleEditClick}
+            onDelete={handleDelete}
+          />
         ))}
-      </Grid>
+      </div>
 
       <AlunoDialog
         open={openEdit}
