@@ -1,40 +1,41 @@
-import * as React from 'react';
-import axios from 'axios';
-import { useState } from 'react';
-import useFetchData from '../utils/fetchData';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-
+import * as React from "react";
+import axios from "axios";
+import { useState } from "react";
+import useFetchData from "../utils/fetchData";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 export default function AddAlunosButton() {
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState({ nome: '', email: '', cpf: '' });
+  const [formData, setFormData] = useState({ nome: "", email: "", cpf: "" });
   const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const { alunos, setAlunos } = useFetchData();
+  const { setAlunos } = useFetchData();
 
-    const handleChange = (e) => {
+  const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleClickOpen = () => {
     setOpen(true);
-  };
+    setFormErrors({ apiError: '' }); 
+    };
 
   const handleClose = () => {
     setOpen(false);
+    setFormErrors({}); 
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-     try {
+    try {
       const response = await axios.post(
         "http://localhost:3000/api/alunos/create",
         formData
@@ -43,20 +44,20 @@ export default function AddAlunosButton() {
       const aluno = response.data.data;
       console.log("Aluno cadastrado com sucesso:", aluno);
 
-      setAlunos([aluno, ...alunos]); 
-
-      console.log("Aluno cadastrado com sucesso:", aluno);
-
+      handleClose();
+      alert("Aluno cadastrado com sucesso!");
+      setAlunos((prevAlunos) => [aluno, ...prevAlunos]);
     } catch (error) {
-      const msg =
-        error.response?.data?.message ||
-        "Erro ao cadastrar aluno.";
-      setFormErrors({ api: msg });
+      const msg = error.response?.data?.message || "Erro ao criar aluno.";
+      setFormErrors({ apiError: msg });
     } finally {
       setLoading(false);
-    }
-    handleClose();
+    }  
   };
+
+  if (loading) {
+    return <p className="text-center py-10">Carregando informações...</p>;
+  }
 
   return (
     <div>
@@ -107,6 +108,9 @@ export default function AddAlunosButton() {
               onChange={handleChange}
               variant="standard"
             />
+            {formErrors.apiError && (
+              <div style={{ color: "red" }}>{formErrors.apiError}</div>
+            )}
           </form>
         </DialogContent>
         <DialogActions>
