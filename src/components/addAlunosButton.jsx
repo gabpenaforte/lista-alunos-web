@@ -59,7 +59,7 @@ export default function AddAlunosButton({ setAlunos }) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="contained" onClick={handleClickOpen}>
         Cadastrar Aluno
       </Button>
       <Dialog open={open} onClose={handleClose}>

@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import FiltrosAlunos from "./filtrosAlunos";
 
 const ListaAlunos = ({ alunos, loading, error, setAlunos }) => {
   const [openEdit, setOpenEdit] = useState(false);
@@ -97,51 +98,53 @@ const ListaAlunos = ({ alunos, loading, error, setAlunos }) => {
   if (loading) return <p>Carregando informações...</p>;
   if (error) return <p>Erro ao carregar alunos.</p>;
 
-  if (!Array.isArray(alunos) || alunos.length === 0) {
-    return <p>Nenhum aluno encontrado.</p>;
-  }
-
   return (
     <>
-      <Grid container spacing={2} className="mt-4">
-        {alunos.map((aluno) => (
-          <Grid item xs={12} sm={6} md={4} key={aluno._id || aluno.cpf}>
-            <Card
-              variant="outlined"
-              className="shadow-md hover:shadow-lg transition-shadow duration-300"
-            >
-              <CardContent>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <Typography variant="h6">{aluno.nome}</Typography>
-                    <Typography color="text.secondary">
-                      {aluno.email}
-                    </Typography>
-                    <Typography color="text.secondary">{aluno.cpf}</Typography>
-                  </div>
+      <FiltrosAlunos onFilter={setAlunos} />
 
-                  <div>
-                    <IconButton
-                      color="primary"
-                      onClick={() => handleEditClick(aluno)}
-                      size="small"
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      color="error"
-                      onClick={() => handleDelete(aluno)}
-                      size="small"
-                    >
-                      <DeleteIcon />
-                    </IconButton>
+      {(!Array.isArray(alunos) || alunos.length === 0) ? (
+        <p>Nenhum aluno encontrado.</p>
+      ) : (
+        <Grid container spacing={2} className="mt-4">
+          {alunos.map((aluno) => (
+            <Grid item xs={12} sm={6} md={4} key={aluno._id || aluno.cpf}>
+              <Card
+                variant="outlined"
+                className="shadow-md hover:shadow-lg transition-shadow duration-300"
+              >
+                <CardContent>
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <Typography variant="h6">{aluno.nome}</Typography>
+                      <Typography color="text.secondary">
+                        {aluno.email}
+                      </Typography>
+                      <Typography color="text.secondary">{aluno.cpf}</Typography>
+                    </div>
+
+                    <div>
+                      <IconButton
+                        color="primary"
+                        onClick={() => handleEditClick(aluno)}
+                        size="small"
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        color="error"
+                        onClick={() => handleDelete(aluno)}
+                        size="small"
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      )}
 
       <Dialog open={openEdit} onClose={handleEditClose}>
         <DialogTitle>Editar Aluno</DialogTitle>
