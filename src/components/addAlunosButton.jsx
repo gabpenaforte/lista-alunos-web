@@ -1,31 +1,26 @@
-import * as React from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { useState } from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import { Button } from "@mui/material";
+import AlunoDialog from "./dialogs/alunoDialog";
 
-export default function AddAlunosButton({ setAlunos }) {
+const AddAlunosButton = ({ setAlunos }) => {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({ nome: "", email: "", cpf: "" });
   const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleClickOpen = () => {
+  const handleOpen = () => {
     setOpen(true);
-    setFormErrors({ apiError: "" });
+    setFormErrors({});
   };
 
   const handleClose = () => {
     setOpen(false);
-    setFormErrors({});
+    setFormData({ nome: "", email: "", cpf: "" });
   };
 
   const handleSubmit = async (e) => {
@@ -40,84 +35,40 @@ export default function AddAlunosButton({ setAlunos }) {
 
       const aluno =
         response.data?.data?.aluno || response.data?.data || response.data;
-      console.log("Aluno cadastrado com sucesso:", aluno);
 
+      setAlunos((prev) => [aluno, ...prev]);
       handleClose();
       alert("Aluno cadastrado com sucesso!");
-      setAlunos((prevAlunos) => [aluno, ...prevAlunos]);
-    } catch (error) {
-      const msg = error.response?.data?.message || "Erro ao criar aluno.";
-      setFormErrors({ apiError: msg });
+    } catch (err) {
+      setFormErrors({
+        apiError: err.response?.data?.message || "Erro ao criar aluno.",
+      });
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) {
-    return <p className="text-center py-10">Carregando informações...</p>;
-  }
-
   return (
-    <div>
-      <Button variant="contained" onClick={handleClickOpen}>
+    <>
+      <Button variant="contained" onClick={handleOpen}>
         Cadastrar Aluno
       </Button>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Cadastro do Aluno</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Entre com as informações do aluno para cadastrá-lo na lista.
-          </DialogContentText>
-          <form onSubmit={handleSubmit} id="subscription-form">
-            <TextField
-              autoFocus
-              required
-              margin="dense"
-              id="name"
-              name="nome"
-              label="Nome do Aluno"
-              type="name"
-              fullWidth
-              onChange={handleChange}
-              variant="standard"
-            />
-            <TextField
-              autoFocus
-              required
-              margin="dense"
-              id="name"
-              name="email"
-              label="Email do Aluno"
-              type="email"
-              fullWidth
-              onChange={handleChange}
-              variant="standard"
-            />
-            <TextField
-              autoFocus
-              required
-              margin="dense"
-              id="cpf"
-              name="cpf"
-              label="CPF do Aluno"
-              placeholder="000.000.000-00"
-              type="text"
-              fullWidth
-              onChange={handleChange}
-              variant="standard"
-            />
-            {formErrors.apiError && (
-              <div style={{ color: "red" }}>{formErrors.apiError}</div>
-            )}
-          </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancelar</Button>
-          <Button type="submit" form="subscription-form">
-            Adicionar
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+
+      <AlunoDialog
+        open={open}
+        title="Cadastro de Aluno"
+        description="Entre com as informações do aluno para cadastrá-lo."
+        formData={formData}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        handleClose={handleClose}
+        formErrors={formErrors}
+        submitting={loading}
+        formId="create-aluno-form"
+        submitLabel="Adicionar"
+      />
+    </>
   );
-}
+};
+
+export default AddAlunosButton;
