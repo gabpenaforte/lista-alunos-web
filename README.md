@@ -1,16 +1,41 @@
-# React + Vite
+# Lista de Alunos — Front-end
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação front-end para gerenciamento de alunos, conectada a uma API Node.js com MongoDB.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Rodando o Projeto Localmente
 
-## React Compiler
+Antes de iniciar o front-end, é necessário configurar e executar o **back-end** do projeto.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Passo 1: Configurar o Back-end
 
-## Expanding the ESLint configuration
+Clone e configure o repositório do back-end seguindo as instruções do README:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🔗 [Repositório Back-end](https://github.com/gabpenaforte/lista-alunos-api/tree/main)
+
+Após garantir que o back-end está rodando localmente, siga para o próximo passo.
+
+---
+
+### Passo 2: Configurar o Front-end
+
+1. **Clone este repositório:**
+ ```bash
+   git clone https://github.com/gabpenaforte/lista-alunos-web.git
+```
+2. **Instale as dependências:**
+
+npm install
+
+## Passo 3: Executar o Projeto
+
+Após instalar as dependências e configurar o projeto back-end, execute:
+
+npm run dev
+
+O terminal exibirá o endereço local onde o projeto está rodando, geralmente:
+
+http://localhost:5173
+
+Abra o endereço no navegador para visualizar a aplicação.
