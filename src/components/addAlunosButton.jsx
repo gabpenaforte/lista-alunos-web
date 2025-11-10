@@ -1,7 +1,6 @@
 import * as React from "react";
 import axios from "axios";
 import { useState } from "react";
-import useFetchData from "../utils/fetchData";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -10,25 +9,23 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export default function AddAlunosButton() {
+export default function AddAlunosButton({ setAlunos }) {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({ nome: "", email: "", cpf: "" });
   const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const { setAlunos } = useFetchData();
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleClickOpen = () => {
     setOpen(true);
-    setFormErrors({ apiError: '' }); 
-    };
+    setFormErrors({ apiError: "" });
+  };
 
   const handleClose = () => {
     setOpen(false);
-    setFormErrors({}); 
+    setFormErrors({});
   };
 
   const handleSubmit = async (e) => {
@@ -41,7 +38,8 @@ export default function AddAlunosButton() {
         formData
       );
 
-      const aluno = response.data.data;
+      const aluno =
+        response.data?.data?.aluno || response.data?.data || response.data;
       console.log("Aluno cadastrado com sucesso:", aluno);
 
       handleClose();
@@ -52,7 +50,7 @@ export default function AddAlunosButton() {
       setFormErrors({ apiError: msg });
     } finally {
       setLoading(false);
-    }  
+    }
   };
 
   if (loading) {

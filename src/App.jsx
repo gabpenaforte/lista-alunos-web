@@ -1,33 +1,23 @@
 import * as React from "react";
-import useFetchData from "./utils/fetchData";
 import AddAlunosButton from "./components/addAlunosButton";
+import ListaAlunos from "./components/listaAlunos";
+import useFetchData from "./utils/fetchData";
 import "./App.css";
 
 const App = () => {
-  const { data: alunos, loading, error } = useFetchData();
+  const { data, loading, error, setData } = useFetchData();
 
   return (
-    <>
+    <div className="app-container">
       <h1>Lista de Alunos</h1>
-      <AddAlunosButton />
-
-      {loading && <p>Carregando...</p>}
-      {error && <p>Erro ao carregar alunos.</p>}
-
-      {!loading && !error && (
-        <ul>
-          {Array.isArray(alunos) && alunos.length > 0 ? (
-            alunos.map((aluno) => (
-              <li key={aluno._id || aluno.cpf}>
-                {aluno.nome} — {aluno.email} — {aluno.cpf}
-              </li>
-            ))
-          ) : (
-            <li>Nenhum aluno encontrado</li>
-          )}
-        </ul>
-      )}
-    </>
+      <AddAlunosButton setAlunos={setData} />
+      <ListaAlunos
+        alunos={data}
+        loading={loading}
+        error={error}
+        setAlunos={setData}
+      />
+    </div>
   );
 };
 
