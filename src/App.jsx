@@ -1,6 +1,7 @@
 import * as React from "react";
 import useFetchData from "./utils/fetchData";
-import './App.css'
+import AddAlunosButton from "./components/addAlunosButton";
+import "./App.css";
 
 const App = () => {
   const { data: alunos, loading, error } = useFetchData();
@@ -8,6 +9,7 @@ const App = () => {
   return (
     <>
       <h1>Lista de Alunos</h1>
+      <AddAlunosButton />
 
       {loading && <p>Carregando...</p>}
       {error && <p>Erro ao carregar alunos.</p>}
@@ -26,7 +28,7 @@ const App = () => {
         </ul>
       )}
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
